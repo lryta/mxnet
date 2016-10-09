@@ -623,9 +623,9 @@ def _ufunc_helper(lhs, rhs, fn_array, fn_scalar, lfn_scalar, rfn_scalar=None):
         # check whether broadcasting is needed
         lsize = functools.reduce(operator.mul, lhs.shape)
         rsize = functools.reduce(operator.mul, rhs.shape)
-        if lsize < rsize:
+        if len(lhs.shape) < len(rhs.shape) or lsize < rsize:
             lhs = lhs.broadcast_to(rhs.shape)
-        elif lsize > rsize:
+        elif len(lhs.shape) > len(rhs.shape) or lsize > rsize:
             rhs = rhs.broadcast_to(lhs.shape)
         return fn_array(lhs, rhs)
     else:
